@@ -27,7 +27,7 @@
     text(12pt, weight: "bold")[#class #serial_num #serial_label #block_counter.step()]
     v(-8pt)
 
-    rect(fill:fill,
+    block(fill:fill,
     width: 100%,
     inset:8pt,
     radius: 4pt,
@@ -42,15 +42,15 @@
 )
 
 #let theorem(body) = note_block(
-  body, class: "Theorem", fill: rgb("#FFF5E4"), stroke: rgb("#EE6983")
+  body, class: "Theorem", fill: rgb("#FFF4E0"), stroke: rgb("#F4B183")
+)
+
+#let lemma(body) = note_block(
+  body, class: "Lemma", fill: rgb("#FEF2F4"), stroke: rgb("#EE6983")
 )
 
 #let corollary(body) = note_block(
   body, class: "Corollary", fill: rgb("#F7FBFC"), stroke: rgb("#769FCD")
-)
-
-#let lemma(body) = note_block(
-  body, class: "Lemma", fill: rgb("#F6E6CB"), stroke: rgb("#A0937D")
 )
 
 
@@ -79,11 +79,25 @@
 }
 
 
+/* Proofs */
+#let proof(body) = {
+  [*#smallcaps("Proof"): *]
+
+  [#body]
+
+  align(right)[*End of Proof*]
+}
+
+
 /* References of blocks */
 // Automatically jump to the corresponding blocks
 // The form of the input should look something like "Definition 1.3.1"
-#let refto(class_with_serial_num) = {
-  link(label(class_with_serial_num), [*#class_with_serial_num*])
+#let refto(class_with_serial_num, alias: none) = {
+  if alias == none {
+    link(label(class_with_serial_num), [*#class_with_serial_num*])
+  } else {
+    link(label(class_with_serial_num), [*#alias*])
+  }
 }
 
 
@@ -259,6 +273,10 @@
 #let note_page(title, author, professor, creater, time, abstract, body) = {
   set document(title: title, author: author)
   set par(justify: true)
+  show math.equation.where(block: true) :it=>block(
+  width: 100%,
+  align(center, it)
+  )
     
   cover_page(title, author, professor, creater, time, abstract)
   
