@@ -42,11 +42,11 @@
 )
 
 #let theorem(body) = note_block(
-  body, class: "Theorem", fill: rgb("#FFF4E0"), stroke: rgb("#F4B183")
+  body, class: "Theorem", fill: rgb("#FEF2F4"), stroke: rgb("#EE6983")
 )
 
 #let lemma(body) = note_block(
-  body, class: "Lemma", fill: rgb("#FEF2F4"), stroke: rgb("#EE6983")
+  body, class: "Lemma", fill: rgb("#FFF4E0"), stroke: rgb("#F4B183")
 )
 
 #let corollary(body) = note_block(
