@@ -3,8 +3,6 @@ This is a lecture notes template based on [Typst](https://github.com/typst/typst
 
 You can take a quick look at the [rendered pdf](example.pdf) to determine if it interests you.
 
-> Reminder: The [typst-lsp](https://github.com/nvarner/typst-lsp) extension on VS Code does not seem to render this template correctly, perhaps due to version lag. The author of [typst-lsp](https://github.com/nvarner/typst-lsp) is already working on an update to Typst v0.6.0
-
 ### Usage
 **Page organization:** The template will automatically create a cover and outline page based on the basic information given by the user, and set the header and footer to fit the content of each page. Just use
 
@@ -27,7 +25,7 @@ Different classes of blocks are automatically labeled. By making some simple cha
 
 // Choose any color you like!
 #let myclass(body) = note_block(
-  body, class: "MyClass", fill: rgb("#666666"), stroke: rgb("#888888")
+  body, class: "MyClass", fill: rgb("#FFFFFF"), stroke: rgb("#666666")
 )
 
 #myclass[your content]
