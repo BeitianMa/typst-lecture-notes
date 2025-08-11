@@ -11,13 +11,13 @@
 #let note_block(body, class: "Block", fill: rgb("#FFFFFF"), stroke: rgb("#000000")) = {
   let block_counter = counter(class)
 
-  locate(loc => {
+  context {
     // Returns the serial number of the current block
     // The format is just like "Definition 1.3.1"
     let serial_num = (
-    h1_marker.at(loc).last(),
-    h2_marker.at(loc).last(),
-    block_counter.at(loc).last() + 1)
+    h1_marker.get().last(),
+    h2_marker.get().last(),
+    block_counter.get().last() + 1)
     .map(str)
     .join(".")
 
@@ -33,7 +33,7 @@
     radius: 4pt,
     stroke:stroke,
     body)
-  })
+  }
 }
 
 // You can change the class name or color here
@@ -59,11 +59,11 @@
 #let notefig(path, width: 100%) = {
   let figure_counter = counter("Figure")
   
-  locate(loc => {
+  context {
     let serial_num = (
-    h1_marker.at(loc).last(),
-    h2_marker.at(loc).last(),
-    figure_counter.at(loc).last() + 1)
+    h1_marker.get().last(),
+    h2_marker.get().last(),
+    figure_counter.get().last() + 1)
     .map(str)
     .join(".")
 
@@ -75,7 +75,7 @@
 
     set align(center)
     text(12pt, weight: "bold")[Figure #serial_num #serial_label #figure_counter.step()]
-  })
+  }
 }
 
 
@@ -119,15 +119,15 @@
     #counter("Figure").update(0)
 
     // Start a new page unless this is the first chapter
-    #locate(loc => {
+    #context {
       let h1_before = query(
-        heading.where(level: 1).before(loc),
-      loc)
+        heading.where(level: 1).before(here())
+      )
 
       if h1_before.len() != 1 {
         pagebreak()
       }
-    })
+    }
 
     // Font size and white space
     #set text(20pt, weight: "bold")
@@ -166,9 +166,9 @@
       #line(length: 40%)
     ],
     
-    footer: locate(loc => {
-      align(center)[#loc.page()]
-    })
+    footer: context {
+      align(center)[#here().page()]
+    }
   )
 
   block(height:25%,fill:none)
@@ -192,8 +192,8 @@
 
     // Headers are set to right- and left-justified
     // on odd and even pages, respectively
-    header: locate(loc => {
-    if calc.odd(loc.page()) {
+    header: context {
+    if calc.odd(here().page()) {
       align(right)[
         #smallcaps[#title]
         #v(-6pt)
@@ -206,11 +206,11 @@
         #line(length: 40%)
       ]
     }
-    }),
+    },
     
-    footer: locate(loc => {
-      align(center)[#loc.page()]
-    })
+    footer: context {
+      align(center)[#here().page()]
+    }
   )
   
   show outline.entry.where(
@@ -232,18 +232,18 @@
   set page(
     paper:"us-letter",
     
-    header: locate(loc => {
+    header: context {
       let h1_before = query(
-      heading.where(level: 1).before(loc),
-      loc)
+      heading.where(level: 1).before(here())
+      )
 
       let h1_after = query(
-      heading.where(level: 1).after(loc),
-      loc)
+      heading.where(level: 1).after(here())
+      )
 
       // Right- and left-justified on odd and even pages, respectively
       // Automatically matches the nearest level 1 title
-      if calc.odd(loc.page()) {
+      if calc.odd(here().page()) {
         if h1_before == (){
           align(right)[_ #h1_after.first().body _ #v(-6pt) #line(length: 40%)]
         } else {
@@ -256,11 +256,11 @@
           align(left)[_ #h1_before.last().body _ #v(-6pt) #line(length: 40%)]
         }
       }
-    }),
+    },
     
-    footer: locate(loc => {
-      align(center)[#loc.page()]
-    }),
+    footer: context {
+      align(center)[#here().page()]
+    },
   )
 
   set_headings(body)
